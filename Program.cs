@@ -1,6 +1,13 @@
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+using JWTSimpleAuthentication.Models;
+using JWTSimpleAuthentication.Services;
 
-app.MapGet("/", () => "Hello World!");
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<TokenServices>();
+
+var app = builder.Build();
+app.MapGet("/", (TokenServices services) => services.GenerateToken(new 
+(1, "admin", 
+    "admin@teste", "1234",
+    new string[]{"admin", "op"})));
 
 app.Run();
